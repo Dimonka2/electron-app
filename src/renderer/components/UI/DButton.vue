@@ -19,6 +19,7 @@
           xxl: 'text-2xl py-4 px-6'
         }
         if (sizeList[this.size]) style += ' ' + sizeList[this.size]
+        if (this.shadow) style += ' shadow-' + this.shadow
         let colorList = ['primary', 'secondary', 'success', 'danger']
         if (colorList.indexOf(this.color) !== -1) {
           let colorList = {
@@ -41,6 +42,7 @@
         default: 'primary'
       },
       route: String,
+      shadow: String,
       size: {
         type: String,
         default: 'md'
