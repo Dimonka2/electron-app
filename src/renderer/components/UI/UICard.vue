@@ -1,9 +1,15 @@
 <template>
   <div
-    class="rounded overflow-hidden shadow-lg"
+    class="rounded border overflow-hidden shadow-lg"
   >
-    <div class="panel-header" v-if="hasHeader">
+    <div class="px-2 py-2 border-b border-gray-200 flex justify-between items-center bg-white sm:py-4 sm:px-6 sm:items-baseline" 
+        v-if="hasHeader">
+        <div class="flex-shrink min-w-0 flex items-center text-xl" v-if="hasTitle">
             <slot name="title"></slot>
+        </div>
+        <div class="flex flex-shrink-0 ml-4 items-center" v-if="hasTools">
+            <slot name="tools"></slot>
+        </div>
     </div>
     <div class="p-4 body" >
         <slot></slot>
