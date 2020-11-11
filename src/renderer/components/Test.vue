@@ -1,5 +1,5 @@
 <template>
-    <v-app id="inspire">
+
     <v-app-bar
       app
       color="white"
@@ -74,6 +74,7 @@
               rounded="lg"
             >
               <!--  -->
+              <a href="/">Back to main</a>
             </v-sheet>
           </v-col>
         </v-row>
