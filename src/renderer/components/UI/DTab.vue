@@ -1,26 +1,39 @@
 <template>
-    <div v-show="isActive"><slot></slot></div>
+    <div v-show="isActive"
+        :aria-hidden="! isActive"
+        role="tabpanel"
+        :id="computedId"
+    >
+        <slot />
+    </div>
 </template>
 <script>
     export default {
         props: {
-            name: { 
+            name: {
                 type: String,
-                required: true 
+                required: true
             },
-            selected: { default: false}
+            selected: { default: false},
+            badge: String
         },
-        data() {  
+        data() {
             return {
                 isActive: false
             };
         },
-        computed: {   
-            href() {
-                return '#' + this.name.toLowerCase().replace(/ /g, '-');
+        computed: {
+            computedId() {
+                return this.id ? this.id : this.name.toLowerCase().replace(/ /g, '-')
+            },
+            hash() {
+                if (this.isDisabled) {
+                    return '#'
+                }
+                return '#' + this.computedId
             }
         },
-        
+
         mounted() {
             this.isActive = this.selected;
         }

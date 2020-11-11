@@ -1,8 +1,8 @@
 <template>
   <div
-    class="rounded border overflow-hidden shadow-lg"
+    v-bind:class="classCard"
   >
-    <div class="px-2 py-2 border-b border-gray-200 flex justify-between items-center bg-white sm:py-4 sm:px-6 sm:items-baseline" 
+    <div class="px-2 py-2 border-b border-gray-200 flex justify-between items-center bg-white sm:py-4 sm:px-6 sm:items-baseline"
         v-if="hasHeader">
         <div class="flex-shrink min-w-0 flex items-center text-xl" v-if="hasTitle">
             <slot name="title"></slot>
@@ -14,8 +14,8 @@
     <div class="p-4 body" >
         <slot></slot>
     </div>
-    <div class="panel-footer" v-if="hasFooter">
-            <slot name="footer"></slot>
+    <div class="px-4 py-3 bg-gray-200 sm:px-6" v-if="hasFooter">
+        <slot name="footer"></slot>
     </div>
   </div>
 </template>
@@ -25,9 +25,14 @@
         name: 'UiCard',
         props: {
             tag: {
-            default: 'div',
-            type: String,
+                default: 'div',
+                type: String,
             },
+            color: {
+                type: String,
+                default: ''
+            },
+            shadow: String,
         },
         computed: {
             hasBody(name = 'default') {
@@ -45,6 +50,11 @@
             hasTools() {
                 return !!this.$slots.tools
             },
+            classCard() {
+                let style = 'rounded border overflow-hidden'
+                if (this.shadow) style += ' shadow-' + this.shadow
+                return style
+            }
         }
     };
 

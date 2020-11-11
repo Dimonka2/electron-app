@@ -1,36 +1,49 @@
 <template>
   <div v-bind:class="classObject">
-        <ul class="flex"> 
-            <li v-for="tab in dtabs" v-bind:key="tab.name" 
-                class="mr-3" :class="{ 'is-active': tab.isActive }">
-                xx <a :href="tab.href" @click="selectTab(tab)">{{ tab.name }}</a>
-            </li> 
+        <ul role="tablist" class="flex  border-b">
+            <li v-for="(tab, i) in getTabs" :key="i"
+                :aria-controls="tab.hash"
+                :aria-selected="tab.isActive"
+                class="mr-1"
+                :class="{ '-mb-px': tab.isActive }"
+                >
+                <a href="#"
+                    class="inline-block py-1 px-3 text-blue-500 hover:text-blue-800 font-semibold rounded-t whitespace-no-wrap"
+                    :class="{
+                        'bg-white border-l border-t border-r': tab.isActive,
+                        'bg-gray-200': !tab.isActive
+                        }"
+                    @click="selectTab(tab)"
+                >
+                    <span>{{ tab.name }}</span>
+                    <badge v-if="!!tab.badge">
+                        {{ tab.badge }}
+                    </badge>
+                </a>
+            </li>
         </ul>
-        <div class="tabs-details">
+        <div class="p-3">
             <slot></slot>
         </div>
   </div>
 </template>
 
 <script>
+    import DBadgeVue from './DBadge.vue'
     import DTab from './DTab.vue'
 
     export default {
         name: 'd-tabs',
         components: {
-            tab: DTab
+            tab: DTab,
+            badge: DBadgeVue
         },
         data() {
-            return {dtabs: [] }
+            return {tabs: [] }
         },
-        created() {   
-            let slot = this.$slots.default
-            let self = this
-            slot.forEach(function(entry) {
-                    if(!!entry.tag) self.dtabs.push(entry)
-                }
-            )
-            console.log(this, slot, this.dtabs)
+        mounted() {
+            this.tabs = this.$children
+            // console.log(this.tabs)
         },
         props: {
             cls: String
@@ -39,11 +52,18 @@
             classObject: function () {
                 let style = ''
                 return style
+            },
+            getTabs: function () {
+                let tabs = []
+                this.tabs.forEach(tab => {
+                    if(tab.$options._componentTag == 'tab') tabs.push(tab)
+                })
+                return tabs
             }
         },
         methods: {
             selectTab(selectedTab) {
-                this.dtabs.forEach(tab => {
+                this.tabs.forEach(tab => {
                     tab.isActive = (tab.name == selectedTab.name)
                 });
             }

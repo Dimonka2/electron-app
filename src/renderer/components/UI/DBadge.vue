@@ -24,7 +24,10 @@
         type: String,
         default: 'blue-500'
       },
-      fontColor: String,
+      fontColor: {
+        type: String,
+        default: 'white'
+      },
       rounded: {
         type: String,
         default: 'full'
