@@ -36,6 +36,7 @@ function createWindow () {
   })
 
   mainWindow.loadURL(process.env.APP_URL)
+  mainWindow.setMenu(null)
 
   mainWindow.on('closed', () => {
     mainWindow = null

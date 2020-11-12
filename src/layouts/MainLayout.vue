@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="text-white" style="background: #24292e" height-hint="61.59">
       <q-toolbar>
         <q-btn
           flat
@@ -8,37 +8,81 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="drawer = !drawer"
         />
 
         <q-toolbar-title>
-          Quasar App
+          LitReview app
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn dense flat no-wrap class="m-l-2">
+              Menu
+            <q-icon name="arrow_drop_down" size="16px" />
+            <user-menu></user-menu>
+
+          </q-btn>
       </q-toolbar>
     </q-header>
 
     <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
+        v-model="drawer"
+        show-if-above
+
+        :mini="miniState"
+        @mouseover="miniState = false"
+        @mouseout="miniState = true"
+
+        :width="200"
+        :breakpoint="500"
+        bordered
+        content-class="bg-grey-3"
+      >
+        <q-scroll-area class="fit">
+          <q-list padding>
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="inbox" />
+              </q-item-section>
+
+              <q-item-section>
+                Inbox
+              </q-item-section>
+            </q-item>
+
+            <q-item active clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="star" />
+              </q-item-section>
+
+              <q-item-section>
+                Star
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="send" />
+              </q-item-section>
+
+              <q-item-section>
+                Send
+              </q-item-section>
+            </q-item>
+
+            <q-separator />
+
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="drafts" />
+              </q-item-section>
+
+              <q-item-section>
+                Drafts
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-scroll-area>
+      </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -48,62 +92,25 @@
 
 <script lang="ts">
 import EssentialLink from 'components/EssentialLink.vue'
-
-const linksData = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
+import UserMenuVue from 'components/UserMenu.vue'
 
 import { defineComponent, ref } from '@vue/composition-api';
+import linksData from '../store/side-menu'
 
 export default defineComponent({
   name: 'MainLayout',
-  components: { EssentialLink },
+  components: {
+    EssentialLink,
+    'user-menu': UserMenuVue
+  },
   setup() {
-    const leftDrawerOpen = ref(false);
-    const essentialLinks = ref(linksData);
 
-    return {leftDrawerOpen, essentialLinks}
+    // console.log('Show what is imported', linksData)
+
+    const leftDrawerOpen = ref(false);
+    const essentialLinks = ref(linksData.menu);
+
+    return {leftDrawerOpen, essentialLinks, drawer: false, miniState: true}
   }
 });
 </script>
