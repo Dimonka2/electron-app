@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout class="q-pa-md">
     <q-header elevated class="text-white" style="background: #24292e" height-hint="61.59">
       <q-toolbar>
         <q-btn
@@ -31,6 +31,7 @@
         :mini="miniState"
         @mouseover="miniState = false"
         @mouseout="miniState = true"
+        mini-to-overlay
 
         :width="200"
         :breakpoint="500"
