@@ -1,6 +1,6 @@
 <template>
-  <q-layout class="q-pa-md">
-    <q-header elevated class="text-white" style="background: #24292e" height-hint="61.59">
+  <q-layout  view="hHh Lpr lff" container class="" style="height: 100vh;">
+    <q-header elevated class="text-white" style="background: #24292e" >
       <q-toolbar>
         <q-btn
           flat
@@ -18,7 +18,7 @@
         <q-btn dense flat no-wrap class="m-l-2">
               Menu
             <q-icon name="arrow_drop_down" size="16px" />
-            <user-menu></user-menu>
+            <UserMenuVue />
 
           </q-btn>
       </q-toolbar>
@@ -38,51 +38,7 @@
         bordered
         content-class="bg-grey-3"
       >
-        <q-scroll-area class="fit">
-          <q-list padding>
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="inbox" />
-              </q-item-section>
-
-              <q-item-section>
-                Inbox
-              </q-item-section>
-            </q-item>
-
-            <q-item active clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="star" />
-              </q-item-section>
-
-              <q-item-section>
-                Star
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="send" />
-              </q-item-section>
-
-              <q-item-section>
-                Send
-              </q-item-section>
-            </q-item>
-
-            <q-separator />
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="drafts" />
-              </q-item-section>
-
-              <q-item-section>
-                Drafts
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-scroll-area>
+        <SideBarVue />
       </q-drawer>
 
     <q-page-container>
@@ -93,25 +49,25 @@
 
 <script lang="ts">
 import EssentialLink from 'components/EssentialLink.vue'
-import UserMenuVue from 'components/UserMenu.vue'
+import UserMenuVue from './partials/UserMenu.vue'
 
 import { defineComponent, ref } from '@vue/composition-api';
-import linksData from '../store/side-menu'
+import SideBarVue from './partials/SideBar.vue';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
     EssentialLink,
-    'user-menu': UserMenuVue
+    UserMenuVue,
+    SideBarVue
   },
   setup() {
 
     // console.log('Show what is imported', linksData)
 
     const leftDrawerOpen = ref(false);
-    const essentialLinks = ref(linksData.menu);
 
-    return {leftDrawerOpen, essentialLinks, drawer: false, miniState: true}
+    return {leftDrawerOpen, drawer: false, miniState: true}
   }
 });
 </script>
